@@ -1,14 +1,13 @@
 import React from 'react';
-import logo from './images/logo.svg';
-//import logo from './logo.svg';
+//import logo from '../images/logo.svg';
+import Header from './Header';
+
 //import './App.css';
 
 function App() {
   return (
     <div className="page">
-    <header className="header">
-      <img src={logo} className="header__logo" alt="логотип сервиса Mesto" />      
-    </header>
+      <Header />
     <main>
       <section className="profile">
         <div className="profile__user">
