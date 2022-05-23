@@ -8,4 +8,4 @@
 - React
 
 ## Сыылка на сайт
-https://mczoom.github.io/mesto/
+https://mczoom.github.io/mesto-react/
