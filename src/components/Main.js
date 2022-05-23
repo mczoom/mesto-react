@@ -1,7 +1,8 @@
 import React from 'react';
 import api from '../utils/Api';
+import Card from './Card';
 
-function Main({onEditProfile, onAddPlace, onEditAvatar}) {
+function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
 
     const [userName, setUserName] = React.useState();
     const [userDescription, setUserDescription] = React.useState();
@@ -17,7 +18,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
             setUserAvatar(data.avatar);
           })
           .catch(err => console.log(err));
-    })
+    }, [])
 
 
     React.useEffect(() => {
@@ -28,14 +29,13 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
           .catch(err => console.log(err));
     }, [])
 
-    console.log(cards);
-
+    
     return (
     <div>
       <section className="profile">
         <div className="profile__user">
           <button className='profile__avatar-edit-button' onClick={onEditAvatar}>
-            <img src={userAvatar} className="profile__avatar" alt="аватара пользователя" />
+            <div style={{backgroundImage: `url(${userAvatar})`}} className="profile__avatar" />
             <div className="profile__avatar-edit-icon"></div>
           </button>
           <div className="profile__user-info">
@@ -50,17 +50,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
       </section>
       <section className="elements">
         {cards.map((card, i) => (
-          <div key={card._id} className="item elements__item">
-            <button className="item__delete-button"></button>                          
-            <img className="item__image" src={card.link} alt="" />              
-            <div className="item__info">
-              <p className="item__title">{card.name}</p>  
-              <div className="item__likebutton-wrap">
-                <button className="item__like-button"></button>
-                <p className="item__like-counter">{card.likes.length}</p>
-              </div>
-            </div>              
-          </div>
+          <Card key={card._id} card={card} onCardClick={onCardClick} />            
         ))}    
       </section>        
     </div>

@@ -15,6 +15,10 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupState] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupState] = React.useState(false);
 
+  const [selectedCard, setSelectedCard] = React.useState(null);
+
+  
+
   function editProfile () {
     setEditProfilePopupState(!isEditProfilePopupOpen);
   }
@@ -31,12 +35,13 @@ function App() {
     setEditProfilePopupState(false);
     setAddPlacePopupState(false);
     setEditAvatarPopupState(false);
+    setSelectedCard(false);
   }
 
   return (
     <div className="page">
       <Header />
-      <Main onEditProfile={editProfile} onAddPlace={addPlace} onEditAvatar={editAvatar} />
+      <Main onEditProfile={editProfile} onAddPlace={addPlace} onEditAvatar={editAvatar} onCardClick={setSelectedCard} />
 
       <PopupWithForm title="Редактировать профиль" name="edit-profile" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
           <div className="popup__section">
@@ -65,7 +70,7 @@ function App() {
           </div>
       </PopupWithForm>
 
-      <ImagePopup />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       <Footer />
   </div>  
   );
