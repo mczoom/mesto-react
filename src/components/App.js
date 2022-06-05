@@ -26,8 +26,8 @@ function App() {
   React.useEffect(() => {
     api.getInitialCards()
       .then((data) => {
-        console.log(data);
         setCards(data);
+        
     })
       .catch(err => console.log(err));
 }, [])
@@ -44,17 +44,14 @@ function handleCardLike (card) {
 function handleCardDelete (card) {
    
   api.deleteCard(card._id)
-    .then((card) => {
-      const newCards = (cards => cards.filter((c) => c._id != card._id));
-      setCards(newCards);
-      console.log(cards);
+    .then(() => {
+      setCards(cards => cards.filter((c) => c._id != card._id));
     });
 }
 
   React.useEffect(() => {
     api.getUserInfo()
       .then((data) => {
-        console.log(data);
         setCurrentUser(data);
       })
       .catch(err => console.log(err));

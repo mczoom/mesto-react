@@ -15,6 +15,8 @@ function AddPlacePopup ({isOpen, onClose, onAddPlace}) {
       name: inputPlaceRef.current.value,
       link: inputUrlRef.current.value,
     });
+    inputPlaceRef.current.value = '';
+    inputUrlRef.current.value = '';
   }   
 
 
