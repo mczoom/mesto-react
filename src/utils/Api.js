@@ -64,22 +64,9 @@ class Api {
     }
 
 
-
-    likeCard(id) {
+    toggleLikeCard(id, isLiked) {        
         return fetch (`${this._baseUrl}cards/${id}/likes`, {
-            method: 'PUT',
-            headers: {
-                authorization: 'eaf754aa-42d0-42bf-81d5-b64b44519c5f',
-                'Content-Type': 'application/json'
-            },
-        })
-        .then(this._checkResponse);
-    }
-
-
-    removeLikeCard(id) {
-        return fetch (`${this._baseUrl}cards/${id}/likes`, {
-            method: 'DELETE',
+            method: `${isLiked ? 'PUT' : 'DELETE'}`,
             headers: {
                 authorization: 'eaf754aa-42d0-42bf-81d5-b64b44519c5f',
                 'Content-Type': 'application/json'
