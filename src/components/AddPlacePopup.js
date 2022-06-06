@@ -1,8 +1,8 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
-import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
-function AddPlacePopup ({isOpen, onClose, onAddPlace}) {
+
+function AddPlacePopup ({isOpen, onClose, onAddPlace, isLoading}) {
 
   const inputPlaceRef = React.useRef();
   const inputUrlRef = React.useRef();
@@ -21,7 +21,7 @@ function AddPlacePopup ({isOpen, onClose, onAddPlace}) {
 
 
 return (
-    <PopupWithForm title="Новое место" buttonText="Создать" name="add-item" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+    <PopupWithForm title="Новое место" buttonText={isLoading ? "Сохранение..." : "Создать"} name="add-item" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
           <div className="popup__section">
               <input className="popup__input popup__input_type_place" ref={inputPlaceRef} id="place-input" placeholder="Название" name="name" type="text" minLength="2" maxLength="30" required />
               <span className="popup__input-error place-input-error"></span>
@@ -30,7 +30,7 @@ return (
               <input className="popup__input popup__input_type_link" ref={inputUrlRef} id="url-input" placeholder="Ссылка на картинку" name="link" type="url" required />
               <span className="popup__input-error url-input-error"></span>
           </div>
-      </PopupWithForm>
+    </PopupWithForm>
 )    
 }
 
