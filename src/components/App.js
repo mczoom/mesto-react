@@ -42,13 +42,15 @@ function handleCardLike (card) {
     .catch(err => console.log(err));
 }
 
-function handleCardDelete (card) {   
+function handleCardDelete (card) {
+  setIsLoading(true);
   api.deleteCard(card._id)
     .then(() => {
       setCards(cards => cards.filter((c) => c._id != card._id));
       closeAllPopups();
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(() => setIsLoading(false));
 }
 
   React.useEffect(() => {
@@ -128,7 +130,7 @@ function handleCardDelete (card) {
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} isLoading={isLoading} />
       <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} isLoading={isLoading} />
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isLoading={isLoading} />
-      <ConfirmationPopup onConfirmDelete={handleCardDelete} isOpen={isConfirmationPopupOpen} onClose={closeAllPopups} card={cardToDelete} />
+      <ConfirmationPopup onConfirmDelete={handleCardDelete} isOpen={isConfirmationPopupOpen} onClose={closeAllPopups} card={cardToDelete} isLoading={isLoading} />
       <Footer />
   </div>
   </CurrentUserContext.Provider>

@@ -11,6 +11,7 @@
     font-size: 18px;
     line-height: 121%;
     font-weight: 400;  
+    cursor: pointer;
   }
   
   .submit-button:hover {
