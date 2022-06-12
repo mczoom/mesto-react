@@ -6,6 +6,7 @@ import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import ConfirmationPopup from './ConfirmationPopup';
 import api from '../utils/Api';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
@@ -15,10 +16,13 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupState] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupState] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupState] = React.useState(false);
+  const [isConfirmationPopupOpen, setConfirmationPopupOpen] = React.useState(false);
+  const [cardToDelete, setCardToDelete] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  
 
   React.useEffect(() => {
     api.getInitialCards()
@@ -42,6 +46,7 @@ function handleCardDelete (card) {
   api.deleteCard(card._id)
     .then(() => {
       setCards(cards => cards.filter((c) => c._id != card._id));
+      closeAllPopups();
     })
     .catch(err => console.log(err));
 }
@@ -67,22 +72,27 @@ function handleCardDelete (card) {
     setEditAvatarPopupState(!isEditAvatarPopupOpen);
   }
 
+  function openConfirmPopup () {
+    setConfirmationPopupOpen(!isConfirmationPopupOpen);
+  }
+
   function closeAllPopups () {
     setEditProfilePopupState(false);
     setAddPlacePopupState(false);
     setEditAvatarPopupState(false);
+    setConfirmationPopupOpen(false);
     setSelectedCard(false);
   }
 
   function handleUpdateUser(userInfo) {
     setIsLoading(true);
     api.setUserInfo(userInfo)
-        .then((data) => {
-          setCurrentUser(data);
-          closeAllPopups ();
-        })
-        .catch(err => console.log(err))
-        .finally(() => setIsLoading(false))
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch(err => console.log(err))
+      .finally(() => setIsLoading(false))
   }
 
   function handleUpdateAvatar(pic) {
@@ -112,11 +122,13 @@ function handleCardDelete (card) {
     <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <Header />
-      <Main cards={cards} onEditProfile={editProfile} onAddPlace={addPlace} onEditAvatar={editAvatar} onCardClick={setSelectedCard} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+      <Main cards={cards} onEditProfile={editProfile} onAddPlace={addPlace} onEditAvatar={editAvatar} onConfirmPopup={openConfirmPopup}
+       onCardClick={setSelectedCard} onCardLike={handleCardLike} onCardDelete={setCardToDelete}/>
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} isLoading={isLoading} />
       <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} isLoading={isLoading} />
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isLoading={isLoading} />
+      <ConfirmationPopup onConfirmDelete={handleCardDelete} isOpen={isConfirmationPopupOpen} onClose={closeAllPopups} card={cardToDelete} />
       <Footer />
   </div>
   </CurrentUserContext.Provider>
