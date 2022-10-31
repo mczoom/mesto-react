@@ -11,7 +11,6 @@
 - JS
 - HTML
 - CSS (Адаптивная верстка)
-- Webpack
 - БЭМ
 - Figma
 
